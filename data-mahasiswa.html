@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SIAKAD - Master Data Mahasiswa</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    
+    <!-- Custom styles for this page (DataTables) -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <style>
+        /* Modifikasi warna header tabel agar mirip seperti digambar (Abu-abu gelap) */
+        .table-custom-header th {
+            background-color: #5a5c69;
+            color: #fff;
+            border-bottom: none;
+        }
+        /* Penyesuaian agar teks dalam tabel sejajar tengah secara vertikal */
+        .table td {
+            vertical-align: middle;
+        }
+
+        /* Rapikan isi tabel */
+#dataTable td {
+    vertical-align: middle;
+}
+
+/* Kolom Aksi: tombol Edit & Hapus tetap sejajar */
+#dataTable td:last-child {
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Ukuran kotak Kode Prodi lebih kecil */
+#dataTable td span.border {
+    font-size: .8rem;
+}
+    </style>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="beranda.html">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">SIAKAD <sup>APP</sup></div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="beranda.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading MASTER DATA -->
+            <div class="sidebar-heading">
+                MASTER DATA
+            </div>
+
+            <!-- Nav Item - Master Data Prodi -->
+            <li class="nav-item">
+                <a class="nav-link" href="data-prodi.html">
+                    <i class="fas fa-fw fa-university"></i>
+                    <span>Master Data Prodi</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Master Data Mahasiswa (ACTIVE) -->
+            <li class="nav-item active">
+                <a class="nav-link" href="data-mahasiswa.html">
+                    <i class="fas fa-fw fa-user-graduate"></i>
+                    <span>Master Data Mahasiswa</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading TRANSAKSI -->
+            <div class="sidebar-heading">
+                TRANSAKSI
+            </div>
+
+            <!-- Nav Item - Transaksi Penilaian -->
+            <li class="nav-item">
+                <a class="nav-link" href="transaksi-penilaian.html">
+                    <i class="fas fa-fw fa-calculator"></i>
+                    <span>Transaksi Penilaian</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar Button Bulat) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 font-weight-bold small">Dr. Dosen Pengampuh, M.Kom</span>
+                                <img class="img-profile rounded-circle"
+                                    src="img/undraw_profile.svg">
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">
+                            <!-- Icon disesuaikan menjadi user-graduate -->
+                            <i class="fas fa-user-graduate text-primary mr-2"></i> Master Data Mahasiswa
+                        </h1>
+                        <!-- Tombol Tambah Data -->
+                        <!-- Tombol Tambah Data -->
+<a href="#" class="d-none d-sm-inline-block btn btn-primary shadow-sm"
+    data-toggle="modal" data-target="#modalMahasiswa">
+    <i class="fas fa-plus fa-sm text-white-50 mr-2"></i> Tambah Mahasiswa Baru
+</a>
+                    </div>
+
+                    <!-- DataTables Card Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Daftar Data Mahasiswa Terdaftar</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <!-- ID "dataTable" otomatis mengaktifkan fitur pencarian & pagination dari script JS -->
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="table-custom-header">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>NIM</th>
+                                            <th>Nama Mahasiswa</th>
+                                            <th>Program Studi</th>
+                                            <th>Angkatan</th>
+                                            <th>Jenis Kelamin</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                            <th class="text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Baris 1 -->
+                                        <tr>
+                                            <td>1</td>
+                                            <td><span class="text-dark font-weight-bold border rounded px-2 py-1">230101001</span></td>
+                                            <td class="font-weight-bold text-gray-800">Aditya Pratama</td>
+                                            <td>Teknik Informatika</td>
+                                            <td>2023</td>
+                                            <td>Laki-laki</td>
+                                            <td>aditya@student.ac.id</td>
+                                            <td><span class="badge badge-success px-2 py-1">Aktif</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a>
+                                                <a href="#" class="btn btn-danger btn-sm" title="Hapus Data"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <!-- Baris 2 -->
+                                        <tr>
+                                            <td>2</td>
+                                            <td><span class="text-dark font-weight-bold border rounded px-2 py-1">230101002</span></td>
+                                            <td class="font-weight-bold text-gray-800">Siti Nurhaliza</td>
+                                            <td>Teknik Informatika</td>
+                                            <td>2023</td>
+                                            <td>Perempuan</td>
+                                            <td>siti@student.ac.id</td>
+                                            <td><span class="badge badge-success px-2 py-1">Aktif</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a>
+                                                <a href="#" class="btn btn-danger btn-sm" title="Hapus Data"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <!-- Baris 3 -->
+                                        <tr>
+                                            <td>3</td>
+                                            <td><span class="text-dark font-weight-bold border rounded px-2 py-1">230102001</span></td>
+                                            <td class="font-weight-bold text-gray-800">Bagas Rahadian</td>
+                                            <td>Sistem Informasi</td>
+                                            <td>2023</td>
+                                            <td>Laki-laki</td>
+                                            <td>bagas@student.ac.id</td>
+                                            <td><span class="badge badge-success px-2 py-1">Aktif</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a>
+                                                <a href="#" class="btn btn-danger btn-sm" title="Hapus Data"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <!-- Baris 4 -->
+                                        <tr>
+                                            <td>4</td>
+                                            <td><span class="text-dark font-weight-bold border rounded px-2 py-1">230103001</span></td>
+                                            <td class="font-weight-bold text-gray-800">Dewi Anggraini</td>
+                                            <td>Teknologi Informasi</td>
+                                            <td>2022</td>
+                                            <td>Perempuan</td>
+                                            <td>dewi@student.ac.id</td>
+                                            <td><span class="badge badge-success px-2 py-1">Aktif</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a>
+                                                <a href="#" class="btn btn-danger btn-sm" title="Hapus Data"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <!-- Baris 5 -->
+                                        <tr>
+                                            <td>5</td>
+                                            <td><span class="text-dark font-weight-bold border rounded px-2 py-1">230104001</span></td>
+                                            <td class="font-weight-bold text-gray-800">Fajar Ramadan</td>
+                                            <td>Sains Data</td>
+                                            <td>2023</td>
+                                            <td>Laki-laki</td>
+                                            <td>fajar@student.ac.id</td>
+                                            <td><span class="badge badge-success px-2 py-1">Aktif</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a>
+                                                <a href="#" class="btn btn-danger btn-sm" title="Hapus Data"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <!-- Baris 6 -->
+                                        <tr>
+                                            <td>6</td>
+                                            <td><span class="text-dark font-weight-bold border rounded px-2 py-1">230101003</span></td>
+                                            <td class="font-weight-bold text-gray-800">Gita Savitri</td>
+                                            <td>Teknik Informatika</td>
+                                            <td>2023</td>
+                                            <td>Perempuan</td>
+                                            <td>gita@student.ac.id</td>
+                                            <td><span class="badge badge-warning px-2 py-1">Cuti</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a>
+                                                <a href="#" class="btn btn-danger btn-sm" title="Hapus Data"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <!-- Baris 7 -->
+                                        <tr>
+                                            <td>7</td>
+                                            <td><span class="text-dark font-weight-bold border rounded px-2 py-1">230102002</span></td>
+                                            <td class="font-weight-bold text-gray-800">Hendra Gunawan</td>
+                                            <td>Sistem Informasi</td>
+                                            <td>2022</td>
+                                            <td>Laki-laki</td>
+                                            <td>hendra@student.ac.id</td>
+                                            <td><span class="badge badge-success px-2 py-1">Aktif</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a>
+                                                <a href="#" class="btn btn-danger btn-sm" title="Hapus Data"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <!-- Baris 8 -->
+                                        <tr>
+                                            <td>8</td>
+                                            <td><span class="text-dark font-weight-bold border rounded px-2 py-1">230103002</span></td>
+                                            <td class="font-weight-bold text-gray-800">Intan Permata</td>
+                                            <td>Teknologi Informasi</td>
+                                            <td>2023</td>
+                                            <td>Perempuan</td>
+                                            <td>intan@student.ac.id</td>
+                                            <td><span class="badge badge-success px-2 py-1">Aktif</span></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a>
+                                                <a href="#" class="btn btn-danger btn-sm" title="Hapus Data"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white mt-auto">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>SIAKAD &copy; Master Data Mahasiswa 2026</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Modal Form Data Mahasiswa -->
+<div class="modal fade" id="modalMahasiswa" tabindex="-1" role="dialog" aria-labelledby="modalMahasiswaLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title font-weight-bold" id="modalMahasiswaLabel">Form Data Mahasiswa</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Tutup">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form id="formMahasiswa">
+                <div class="modal-body">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold" for="nim">NIM (Nomor Induk Mahasiswa)</label>
+                            <input type="text" class="form-control" id="nim" placeholder="Contoh: 230101001" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold" for="namaMhs">Nama Lengkap Mahasiswa</label>
+                            <input type="text" class="form-control" id="namaMhs" placeholder="Masukkan nama lengkap" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold" for="prodiMhs">Program Studi</label>
+                            <select class="custom-select" id="prodiMhs" required>
+                                <option value="">-- Pilih Program Studi --</option>
+                                <option value="Teknik Informatika">Teknik Informatika</option>
+                                <option value="Sistem Informasi">Sistem Informasi</option>
+                                <option value="Teknologi Informasi">Teknologi Informasi</option>
+                                <option value="Sains Data">Sains Data</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold" for="angkatan">Angkatan</label>
+                            <select class="custom-select" id="angkatan">
+                                <option value="2026">2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023" selected>2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label class="font-weight-bold" for="jk">Jenis Kelamin</label>
+                            <select class="custom-select" id="jk">
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label class="font-weight-bold" for="emailMhs">Email Student</label>
+                            <input type="email" class="form-control" id="emailMhs" placeholder="email@student.ac.id" required>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="font-weight-bold" for="statusMhs">Status</label>
+                            <select class="custom-select" id="statusMhs">
+                                <option value="Aktif">Aktif</option>
+                                <option value="Cuti">Cuti</option>
+                                <option value="Lulus">Lulus</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save mr-1"></i> Simpan Data
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<!-- End of Modal -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins (DataTables) -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts (Memanggil fungsi DataTables) -->
+    <script src="js/demo/datatables-demo.js"></script>
+
+    <script>
+    var barisEdit = null; // null = mode tambah, berisi baris = mode edit
+
+    // Tombol Edit: buka form dengan data baris terisi
+    $("#dataTable").on("click", ".btn-info", function (e) {
+        e.preventDefault();
+        barisEdit = $(this).closest("tr");
+        var kolom = barisEdit.find("td");
+
+        $("#nim").val($(kolom[1]).text().trim());
+        $("#namaMhs").val($(kolom[2]).text().trim());
+        $("#prodiMhs").val($(kolom[3]).text().trim());
+        $("#angkatan").val($(kolom[4]).text().trim());
+        $("#jk").val($(kolom[5]).text().trim());
+        $("#emailMhs").val($(kolom[6]).text().trim());
+        $("#statusMhs").val($(kolom[7]).text().trim());
+
+        $("#modalMahasiswa").modal("show");
+    });
+
+    // Tombol Hapus: hanya notifikasi, data tidak dihapus
+    $("#dataTable").on("click", ".btn-danger", function (e) {
+        e.preventDefault();
+        alert("Data berhasil dihapus!");
+    });
+
+    // Simpan Data (tambah baru / update)
+    $("#formMahasiswa").on("submit", function (e) {
+        e.preventDefault();
+
+        var table = $("#dataTable").DataTable();
+        var status = $("#statusMhs").val();
+
+        var badgeStatus = "badge-success";
+        if (status === "Cuti") badgeStatus = "badge-warning";
+        if (status === "Lulus") badgeStatus = "badge-info";
+
+        var nimHtml = '<span class="text-dark font-weight-bold border rounded px-2 py-1">' + $("#nim").val() + '</span>';
+        var namaHtml = '<span class="font-weight-bold text-gray-800">' + $("#namaMhs").val() + '</span>';
+        var statusHtml = '<span class="badge ' + badgeStatus + ' px-2 py-1">' + status + '</span>';
+
+        if (barisEdit) {
+            // Mode edit: No dan Aksi tetap
+            var d = table.row(barisEdit).data();
+            table.row(barisEdit).data([
+                d[0], nimHtml, namaHtml, $("#prodiMhs").val(), $("#angkatan").val(),
+                $("#jk").val(), $("#emailMhs").val(), statusHtml, d[8]
+            ]).draw(false);
+            alert("Data berhasil diperbarui!");
+        } else {
+            // Mode tambah
+            table.row.add([
+                table.rows().count() + 1,
+                nimHtml, namaHtml, $("#prodiMhs").val(), $("#angkatan").val(),
+                $("#jk").val(), $("#emailMhs").val(), statusHtml,
+                '<div class="text-center">' +
+                    '<a href="#" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a> ' +
+                    '<a href="#" class="btn btn-danger btn-sm" title="Hapus Data"><i class="fas fa-trash"></i></a>' +
+                '</div>'
+            ]).draw(false);
+        }
+
+        $("#modalMahasiswa").modal("hide");
+    });
+
+    // Reset form dan mode setiap modal ditutup
+    $("#modalMahasiswa").on("hidden.bs.modal", function () {
+        $("#formMahasiswa")[0].reset();
+        barisEdit = null;
+    });
+</script>
+
+<script>
+    // Tombol hapus: hanya menampilkan notifikasi, data tidak dihapus
+    $("#dataTable").on("click", ".btn-danger", function (e) {
+        e.preventDefault();
+        alert("Data berhasil dihapus!");
+    });
+</script>
+
+</body>
+
+</html>
